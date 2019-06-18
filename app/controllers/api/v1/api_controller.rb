@@ -4,10 +4,10 @@ class Api::V1::ApiController < ActionController::Base
 		# if request.headers['Authorization']
 		# 	@client = Client.find_by(token: request.headers['Authorization'])
 		# 	unless @client
-		# 		permission_error "User not found"
+		# 		unauthorized "User not found"
 		# 	end
 		# else
-		# 	permission_error "User not found"
+		# 	unauthorized "User not found"
 		# end
 	end
 
@@ -19,12 +19,12 @@ class Api::V1::ApiController < ActionController::Base
 		render_error 400, "Invalid Parameters"
 	end
 
-	def permission_error(message)
-		render_error 401, message
-	end
-
 	def conflict(message)
 		render_error 409, message
+	end
+
+	def unauthorized(message)
+		render_error 401, message
 	end
 
 	def check_validation(object)

@@ -35,7 +35,33 @@ RSpec.describe Api::V1::UserController do
       json_response = JSON.parse(response.body)
       expect(json_response.keys).to match_array(["id", "email", "nickname", "token", "created_at", "updated_at"])
     end
+  end
 
+  describe "POST #login" do
+    before do
+      post :create, params: {user: {email: "email1@mail.com", nickname: "nickname1", password: "1234567", password_confirmation: "1234567"}}
+    end
+
+    it "successfully login with correct email" do
+      post :login, params: {user: {email: "email1@mail.com", password: "1234567"}}
+      expect(response).to have_http_status(:success)
+      json_response = JSON.parse(response.body)
+      expect(json_response.keys).to match_array(["id", "email", "nickname", "token", "created_at", "updated_at"])
+    end
+
+    it "successfully login with correct nickname" do
+      post :login, params: {user: {nickname: "nickname1", password: "1234567"}}
+      expect(response).to have_http_status(:success)
+      json_response = JSON.parse(response.body)
+      expect(json_response.keys).to match_array(["id", "email", "nickname", "token", "created_at", "updated_at"])
+    end
+
+    it "unsuccessfully login with incorrect password" do
+      post :login, params: {user: {email: "email1@mail.com", password: "1234569"}}
+      expect(response).to have_http_status(:unauthorized)
+      json_response = JSON.parse(response.body)
+      expect(json_response.keys).to match_array(["errors"])
+    end
   end
 
 end
