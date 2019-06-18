@@ -50,7 +50,7 @@ RSpec.describe Api::V1::UserController do
     end
 
     it "successfully login with correct nickname" do
-      post :login, params: {user: {nickname: "nickname1", password: "1234567"}}
+      post :login, params: {user: {email: "nickname1", password: "1234567"}}
       expect(response).to have_http_status(:success)
       json_response = JSON.parse(response.body)
       expect(json_response.keys).to match_array(["id", "email", "nickname", "token", "created_at", "updated_at"])

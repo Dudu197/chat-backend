@@ -29,7 +29,7 @@ class Api::V1::UserController < Api::V1::ApiController
     end
 
     def login_params
-      params.require(:user).permit(:email, :nickname, :password)
+      params.require(:user).permit(:email, :password)
     end
 
 end

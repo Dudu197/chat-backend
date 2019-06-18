@@ -10,7 +10,7 @@ class User < ApplicationRecord
 	end
 
 	def self.verify_login(login)
-		user = User.where('email = ? or nickname = ?', login[:email], login[:nickname]).first
+		user = User.where('email = ? or nickname = ?', login[:email], login[:email]).first
 		if user
 			if user.valid_password?(login[:password])
 				return user
