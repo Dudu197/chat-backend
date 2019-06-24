@@ -4,6 +4,7 @@ class User < ApplicationRecord
 	devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 	has_secure_token :token
+	has_secure_token :public_token
 
 	def unique?
 		return User.where('(email = ? or nickname = ?) and id <> ? ', email, nickname, (id ? id : 0)).count == 0

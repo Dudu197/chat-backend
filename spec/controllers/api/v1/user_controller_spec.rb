@@ -12,7 +12,7 @@ RSpec.describe Api::V1::UserController do
 
     it "JSON body response contains expected pratice attributes" do
       json_response = JSON.parse(response.body)
-      expect(json_response.keys).to match_array(["id", "email", "nickname", "token", "created_at", "updated_at"])
+      expect(json_response.keys).to match_array(["id", "email", "nickname", "token", "public_token", "created_at", "updated_at"])
     end
 
     it "cannot have two users with same email" do
@@ -33,7 +33,7 @@ RSpec.describe Api::V1::UserController do
       post :create, params: {user: {email: "email2@mail.com", nickname: "nickname2", password: "1234567", password_confirmation: "1234567"}}
       expect(response).to have_http_status(:success)
       json_response = JSON.parse(response.body)
-      expect(json_response.keys).to match_array(["id", "email", "nickname", "token", "created_at", "updated_at"])
+      expect(json_response.keys).to match_array(["id", "email", "nickname", "token", "public_token", "created_at", "updated_at"])
     end
   end
 
@@ -46,14 +46,14 @@ RSpec.describe Api::V1::UserController do
       post :login, params: {user: {email: "email1@mail.com", password: "1234567"}}
       expect(response).to have_http_status(:success)
       json_response = JSON.parse(response.body)
-      expect(json_response.keys).to match_array(["id", "email", "nickname", "token", "created_at", "updated_at"])
+      expect(json_response.keys).to match_array(["id", "email", "nickname", "token", "public_token", "created_at", "updated_at"])
     end
 
     it "successfully login with correct nickname" do
       post :login, params: {user: {email: "nickname1", password: "1234567"}}
       expect(response).to have_http_status(:success)
       json_response = JSON.parse(response.body)
-      expect(json_response.keys).to match_array(["id", "email", "nickname", "token", "created_at", "updated_at"])
+      expect(json_response.keys).to match_array(["id", "email", "nickname", "token", "public_token", "created_at", "updated_at"])
     end
 
     it "unsuccessfully login with incorrect password" do

@@ -1,14 +1,14 @@
 class Api::V1::ApiController < ActionController::Base
 
 	def auth!
-		# if request.headers['Authorization']
-		# 	@client = Client.find_by(token: request.headers['Authorization'])
-		# 	unless @client
-		# 		unauthorized "User not found"
-		# 	end
-		# else
-		# 	unauthorized "User not found"
-		# end
+		if request.headers['Authorization']
+			@user = User.find_by(token: request.headers['Authorization'])
+			unless @user
+				unauthorized "User not found"
+			end
+		else
+			unauthorized "User not provided"
+		end
 	end
 
 	def error(message = "Internal server error")
