@@ -16,7 +16,6 @@ class Api::V1::UserController < Api::V1::ApiController
   def login
     user = User.verify_login(login_params)
     if user
-      sign_in user
       render json: user
     else
       unauthorized "User or password incorrect"
