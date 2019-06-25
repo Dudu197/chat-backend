@@ -10,6 +10,7 @@ jobs:
           DB_HOST: 127.0.0.1
           RAILS_ENV: test
       - image: circleci/mysql
+        command: [--default-authentication-plugin=mysql_native_password]
         environment:
           MYSQL_ROOT_PASSWORD: KJtPnywaEwYv
           MYSQL_USER: test_user
