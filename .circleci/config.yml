@@ -8,7 +8,7 @@ jobs:
           PGHOST: localhost
           PGUSER: chat-backend
           RAILS_ENV: test
-      - image: circleci/mysql:8.3
+      - image: circleci/mysql
         environment:
           MYSQL_ROOT_PASSWORD: KJtPnywaEwYv
           MYSQL_USER: root
