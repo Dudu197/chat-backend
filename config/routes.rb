@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   		post '/user/login', to: 'user#login'
 
   		post '/message/send', to: 'message#send_message'
+  		get '/message/get/:receiver_token(/:page)', to: 'message#get_messages'
+
+      get '/contacts', to: 'contact#get_contacts'
   	end
   end
 end

@@ -62,6 +62,14 @@ RSpec.describe Api::V1::UserController do
       json_response = JSON.parse(response.body)
       expect(json_response.keys).to match_array(["errors"])
     end
+
+    it "token should change after login" do
+      user = User.find_by(email: "email1@mail.com")
+      post :login, params: {user: {email: "email1@mail.com", password: "1234567"}}
+      expect(response).to have_http_status(:success)
+      json_response = JSON.parse(response.body)
+      expect(json_response["token"]).not_to be user.token
+    end
   end
 
 end
