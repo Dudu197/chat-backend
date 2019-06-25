@@ -5,8 +5,8 @@ jobs:
     docker:
       - image: circleci/ruby:2.4.1
         environment:
-          DB_USERNAME: test_user
-          DB_PASSWORD: p4VjEeLaV2HE
+          DB_USERNAME: root
+          DB_PASSWORD: KJtPnywaEwYv
           DB_HOST: 127.0.0.1
           RAILS_ENV: test
       - image: circleci/mysql
