@@ -36,8 +36,8 @@ jobs:
             - vendor/bundle
 
       - run: 
-        name: Waiting for MySQL
-        command: dockerize -wait tcp://localhost:3306 -timeout 1m
+          name: Waiting for MySQL
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
 
       - run:
           name: Database Setup
