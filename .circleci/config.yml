@@ -35,7 +35,9 @@ jobs:
           paths:
             - vendor/bundle
 
-      - run: dockerize -wait tcp://localhost:3306 -timeout 1m
+      - run: 
+        name: Waiting for MySQL
+        command: dockerize -wait tcp://localhost:3306 -timeout 1m
 
       - run:
           name: Database Setup
@@ -44,8 +46,8 @@ jobs:
             bundle exec rake db:migrate
 
       - run:
-          name: Parallel RSpec
-          command: bin/rails test
+          name: RSpec
+          command: rspec
 
       # Save artifacts
       - store_test_results:
