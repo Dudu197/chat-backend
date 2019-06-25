@@ -16,26 +16,35 @@ jobs:
     steps:
       - checkout
 
-      # Restore Cached Dependencies
-      - type: cache-restore
-        name: Restore bundle cache
-        key: chat-backend-{{ checksum "Gemfile.lock" }}
+      # Restore bundle cache
+      - restore_cache:
+          keys:
+            - chat-backend-{{ checksum "Gemfile.lock" }}
+            - chat-backend-
 
       # Bundle install dependencies
-      - run: bundle install --path vendor/bundle
+      - run:
+          name: Install dependencies
+          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs 4 --retry 3
 
-      # Cache Dependencies
-      - type: cache-save
-        name: Store bundle cache
-        key: chat-backend-{{ checksum "Gemfile.lock" }}
-        paths:
-          - vendor/bundle
+      - run: sudo apt install -y postgresql-client || true
 
-      # Setup the environment
-      - run: cp .sample.env .env
+      # Store bundle cache
+      - save_cache:
+          key: chat-backend-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
 
-      # Setup the database
-      - run: bundle exec rake db:setup
+      - run:
+          name: Database Setup
+          command: |
+            bundle exec rake db:create
+            bundle exec rake db:structure:load
 
-      # Run the tests
-      - run: bundle exec rspec
+      - run:
+          name: Parallel RSpec
+          command: bin/rails test
+
+      # Save artifacts
+      - store_test_results:
+          path: /tmp/test-results
